@@ -28,6 +28,7 @@ class ModelWrapper(nn.Module):
 # ── Configuration ──────────────────────────────────────────────────────
 # UPDATE THIS URL to point to the raw GitHub URL of your skin_lesions.zip
 DATA_URL = "https://github.com/SimonIlic/ML4Epidemiology/raw/main/Lesson3/skin_lesions.zip"
+DATA_URL_NO_RULERS = "https://github.com/SimonIlic/ML4Epidemiology/raw/main/Lesson3/skin_lesions_no_rulers.zip"
 DATA_DIR = "skin_lesions"
 ZIP_FILE = "skin_lesions.zip"
 
@@ -46,7 +47,7 @@ CLASS_NAMES = ["benign", "malignant"]
 
 # ── Data Loading ───────────────────────────────────────────────────────
 
-def load_data():
+def load_data(no_rulers=False):
     """Download the skin lesion dataset and return train/test datasets.
 
     Returns:
@@ -54,7 +55,10 @@ def load_data():
     """
     if not os.path.exists(DATA_DIR):
         print("Downloading skin lesion dataset...")
-        urllib.request.urlretrieve(DATA_URL, ZIP_FILE)
+        if no_rulers:
+            urllib.request.urlretrieve(DATA_URL_NO_RULERS, ZIP_FILE)
+        else:
+            urllib.request.urlretrieve(DATA_URL, ZIP_FILE)
         print("Extracting...")
         with zipfile.ZipFile(ZIP_FILE, "r") as zf:
             zf.extractall(".")
